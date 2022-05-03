@@ -22,7 +22,6 @@ function App() {
           <Route path='/signin' element={<SignInPage />}></Route>
           <Route path='/counter' element={<Counter />}></Route>
           <Route path='/caesar' element={<Caesar />}></Route>
-          <Route path='/todo' element={<Todo />}></Route>
         </Routes>
       </div>
     </Auth.Provider>

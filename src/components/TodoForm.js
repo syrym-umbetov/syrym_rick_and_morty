@@ -1,35 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import './../styles/todolist.css';
 import './../styles/Form.css';
 
 const TodoForm = ({ onCreate }) => {
   const [text, setText] = useState('');
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      onCreate(text);
+  const handleCreate = useCallback(
+    (e) => {
+      e.preventDefault();
+      onCreate({
+        text,
+        created: new Date(),
+        done: false,
+      });
       setText('');
-    }
-  };
+    },
+    [onCreate, text]
+  );
+  const isDisabled = useMemo(() => {
+    return text.trim().length === 0;
+  }, [text]);
   return (
-    <div className='Form'>
+    <form onSubmit={handleCreate} className='Form'>
       <input
         label='Enter Name'
         value={text}
         onChange={(e) => setText(e.target.value)}
         className='Form__input'
-        onKeyPress={handleKeyPress}
       />
-      <button
-        className='todoitem__button'
-        onClick={() => {
-          onCreate(text);
-          setText('');
-        }}
-        tabIndex='0'
-      >
+      <button disabled={isDisabled} className='todoitem__button' type='submit'>
         Create
       </button>
-    </div>
+    </form>
   );
 };
 
